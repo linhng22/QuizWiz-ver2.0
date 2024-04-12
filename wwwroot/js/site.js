@@ -15,16 +15,19 @@ function displayFlashcard(index) {
 }
 
 function toggleFlashcard() {
+  var headerElement = document.querySelector("#flashcardHeader");
   var questionElement = document.querySelector("#flashcard .question");
   var answerElement = document.querySelector("#flashcard .answer");
 
   // If the answer is hidden, show it and hide the question
   if (answerElement.style.display === "none") {
+    headerElement.innerText = "Answer";
     answerElement.style.display = "block";
     questionElement.style.display = "none";
   }
   // If the answer is shown, hide it and show the question
   else {
+    headerElement.innerText = "Question";
     answerElement.style.display = "none";
     questionElement.style.display = "block";
   }
