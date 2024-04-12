@@ -53,6 +53,8 @@ table {
   justify-content: center;
   cursor: pointer;
   margin-bottom: 20px;
+  text-align: center;
+  padding: 3rem;
 }
 
 .question,
