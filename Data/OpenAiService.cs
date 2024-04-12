@@ -12,9 +12,17 @@ public class OpenAiService
 
   public OpenAiService()
   {
-    endpoint = System.Configuration.ConfigurationManager.AppSettings["endpoint"]!;
-    apiKey = System.Configuration.ConfigurationManager.AppSettings["apiKey"]!;
-    model = System.Configuration.ConfigurationManager.AppSettings["model"]!;
+    // endpoint = System.Configuration.ConfigurationManager.AppSettings["endpoint"]!;
+    // apiKey = System.Configuration.ConfigurationManager.AppSettings["apiKey"]!;
+    // model = System.Configuration.ConfigurationManager.AppSettings["model"]!;
+    endpoint = Environment.GetEnvironmentVariable("OPENAI_ENDPOINT");
+    apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY");
+    model = Environment.GetEnvironmentVariable("OPENAI_MODEL");
+
+    if (string.IsNullOrEmpty(_endpoint) || string.IsNullOrEmpty(_apiKey) || string.IsNullOrEmpty(_model))
+    {
+        throw new ApplicationException("OpenAI configuration is incomplete.");
+    }
   }
 
   public async Task<IReadOnlyList<ChatMessageContent>> UseOpenAiService(string userContent)
