@@ -36,9 +36,8 @@
             @if (loggedIn)
             {
                 <div>
-                    <a class="btn btn-primary" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]">Add
-                        New
-                        Card</a>
+                    <a class="btn btn-primary" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]">
+                        Add New Card</a>
                 </div>
 
                 <table class="table mt-5">

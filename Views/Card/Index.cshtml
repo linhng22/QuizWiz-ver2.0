@@ -17,6 +17,9 @@
     <div class="container px-5 py-4">
         <div id="flashcard-container">
             <div id="flashcard" class="flashcard" onclick="toggleFlashcard()">
+                <div>
+                    <p id="flashcardHeader" class="text-muted">Question</p>
+                </div>
                 <div class="question">@Html.DisplayFor(model => model.FirstOrDefault()!.Question)</div>
                 <div class="answer" style="display: none;">@Html.DisplayFor(model => model.FirstOrDefault()!.Answer)
                 </div>
@@ -24,63 +27,69 @@
         </div>
 
         <div id="navigation-arrows">
-            <button onclick="previousFlashcard()"><i class="fas fa-arrow-left"></i></button>
-            <button onclick="nextFlashcard()"><i class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-secondary rounded px-3 pb-2 mb-2 mb-lg-0 me-3"
+                onclick="previousFlashcard()"><i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="btn btn-secondary rounded px-3 pb-2 mb-2 mb-lg-0 me-3"
+                onclick="nextFlashcard()"><i class="fas fa-arrow-right"></i>
+            </button>
         </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuestionId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Question)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Answer)
-                    </th>
-                    @if (loggedIn)
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.CardSet)
-                        </th>
-
-                        <th></th>
-                    }
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="container mt-5">
+            <table class="table mt-4">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.QuestionId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Question)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Answer)
-                        </td>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Question)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Answer)
+                        </th>
                         @if (loggedIn)
                         {
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CardSet!.Name)
-                            </td>
-
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.CardId">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.CardId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.CardId">Delete</a>
-                            </td>
+                            <th></th>
+                            <th></th>
                         }
-
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QuestionId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Question)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Answer)
+                            </td>
+                            @if (loggedIn)
+                            {
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.CardId"
+                                        class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.CardId"
+                                        class="btn btn-outline-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </section>
