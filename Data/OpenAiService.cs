@@ -12,12 +12,11 @@ public class OpenAiService
 
   public OpenAiService()
   {
-    endpoint = Environment.GetEnvironmentVariable("endpoint")!;
-    apiKey = Environment.GetEnvironmentVariable("apiKey")!;
-    model = Environment.GetEnvironmentVariable("model")!;
+    endpoint = Environment.GetEnvironmentVariable("endpoint");
+    apiKey = Environment.GetEnvironmentVariable("apiKey");
+    model = Environment.GetEnvironmentVariable("model");
 
     if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(model))
-
     {
         throw new ApplicationException("OpenAI configuration is incomplete.");
     }
