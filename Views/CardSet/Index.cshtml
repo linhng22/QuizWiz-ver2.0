@@ -1,0 +1,86 @@
+@model IEnumerable<CardSet>
+
+@{
+    ViewData["Title"] = "Your Card Sets";
+}
+
+<!-- Mashead header-->
+<header class="masthead">
+    <div class="container px-5 py-4 text-center">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+</header>
+
+<section>
+<div class="container px-5 py-4">
+    <div class="row gx-5 justify-content-center"
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+            <!-- Create button -->
+            <div class="mb-5">
+                <a asp-action="Create" class="btn btn-primary rounded px-3 pb-2 mb-2 mb-lg-0 me-3">
+                    <span class="d-inline-block bi-file-plus me-2" aria-hidden="true"></span>
+                    Create a new card set
+                </a>
+            </div>
+
+            <div>
+            <!-- Page contents -->
+            @if (Model.Count() == 0)
+            {
+                <p>
+                    No card sets have been created yet.
+                </p>
+            } 
+            else 
+            {
+                <!-- Make a card for each CardSet -->
+                @foreach (var item in Model)
+                {
+                    <div class="card shadow border-0 rounded-4 mb-5">
+                        <div class="card-body p-5">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="text-primary fw-bolder mb-2" >
+                                        <a asp-action="Set" asp-controller="Card" asp-route-id="@item.CardSetId" 
+                                            class="text-decoration-none">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@item.CardSetId"
+                                        class="btn btn-outline-primary btn-sm rounded me-2"
+                                        title="Edit Card Set">
+                                        Edit
+                                    </a>
+                                
+                                    <a asp-action="Delete" asp-route-id="@item.CardSetId"
+                                    class="btn btn-outline-danger btn-sm rounded me-4"
+                                    title="Delete Card Set">
+                                        Delete
+                                    </a>
+                                    <a asp-action="Download" asp-route-id="@item.CardSetId"
+                                    class="btn btn-secondary btn-sm rounded"
+                                    title="Edit Card Set">
+                                        <i class="bi-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+}

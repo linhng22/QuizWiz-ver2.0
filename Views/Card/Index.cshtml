@@ -1,0 +1,101 @@
+@model IEnumerable<ProjectStudyTool.Models.Card>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+@{
+    var loggedIn = User.Identity!.IsAuthenticated;
+    ViewData["Title"] = "Index";
+}
+
+
+@if (loggedIn)
+{
+    <p>
+    <a asp-action="Create">Create New</a>
+</p>
+}
+
+<section>
+    <div class="container px-5 py-4">
+        <div id="flashcard-container">
+            <div id="flashcard" class="flashcard" onclick="toggleFlashcard()">
+                <div>
+                    <p id="flashcardHeader" class="text-muted">Question</p>
+                </div>
+                <div class="question">@Html.DisplayFor(model => model.FirstOrDefault()!.Question)</div>
+                <div class="answer" style="display: none;">@Html.DisplayFor(model => model.FirstOrDefault()!.Answer)
+                </div>
+            </div>
+        </div>
+
+        <div id="navigation-arrows">
+            <button class="btn btn-secondary rounded px-3 pb-2 mb-2 mb-lg-0 me-3"
+                onclick="previousFlashcard()"><i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="btn btn-secondary rounded px-3 pb-2 mb-2 mb-lg-0 me-3"
+                onclick="nextFlashcard()"><i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="container mt-5">
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Question)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Answer)
+                        </th>
+                        @if (loggedIn)
+                        {
+                            <th></th>
+                            <th></th>
+                        }
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QuestionId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Question)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Answer)
+                            </td>
+                            @if (loggedIn)
+                            {
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.CardId"
+                                        class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.CardId"
+                                        class="btn btn-outline-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    // This will create a global JavaScript variable
+    window.flashcards = @Html.Raw(Json.Serialize(Model));
+</script>
+<script src="~/js/site.js"></script>
