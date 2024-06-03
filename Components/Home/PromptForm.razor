@@ -1,0 +1,36 @@
+@rendermode InteractiveServer
+@inject ApplicationDbContext dbContext
+@inject NavigationManager NavigationManager
+
+<div class="text-align-center py-4">
+  <RadzenColumn Size="12">
+    <RadzenFormField AllowFloatingLabel="false" Text="Enter study contents here" Variant="@variant" >
+      <RadzenTextArea @bind-Value="@value" Cols="120" Rows="15" 
+        id="userContent" oninput="updateCharacterCount()" Name="userContent" MaxLength=@MAX_LENGTH
+        />
+    </RadzenFormField>
+    <div class="text-light py-2">
+      <small id="characterCount">@value.Length/@MAX_LENGTH characters</small>
+    </div>
+  </RadzenColumn>
+</div>
+
+
+@code {
+  Variant variant = Variant.Flat;
+  string value = "";
+  const int MAX_LENGTH = 2000;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await base.OnInitializedAsync();
+  }
+}
+
+<script>
+  function updateCharacterCount() {
+    var text = document.getElementById("userContent").value;
+    var count = text.length;
+    document.getElementById("characterCount").innerText = count + "/" + @MAX_LENGTH + " characters";
+  }
+</script>
