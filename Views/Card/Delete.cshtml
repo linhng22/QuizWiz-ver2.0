@@ -1,0 +1,52 @@
+@model ProjectStudyTool.Models.Card
+
+@{
+    ViewData["Title"] = "Delete this card?";
+}
+
+<header class="masthead">
+    <div class="container px-5 py-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+</header>
+
+<section>
+    <div class="container px-5 py-4">
+        
+        <div>
+            <dl class="row mb-5">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.QuestionId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.QuestionId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Question)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Question)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Answer)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Answer)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CardSet)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CardSet!.Name)
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="CardId" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a class="btn btn-outline-secondary ms-2" asp-action="Set" asp-controller="Card" asp-route-id="@Model.CardSetId">Back to List</a>
+            </form>
+        </div>
+
+    </div>
+</section>
