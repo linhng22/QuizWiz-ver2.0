@@ -1,5 +1,11 @@
+# QuizWiz-ver2.0
+
+Continue the BCIT team project
+
+# QuizWiz-ver1.0
+
 Team members:
-Tracy Ly - A01309036 -  tracy.ly.ca@gmail.com
+Tracy Ly - A01309036 - tracy.ly.ca@gmail.com
 Greg Song - A01328269 - gregjsong@gmail.com
 Khanh Linh Nguyen - A01313185 - k.linh2210@gmail.com
 Anh Nguyen - A01282003 - ngocanhnt269@gmail.com
