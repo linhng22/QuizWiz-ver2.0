@@ -2,6 +2,13 @@
 
 Continue the BCIT team project
 
+How to run the application:
+
+- Clone the project `git clone https://github.com/linhng22/QuizWiz-ver2.0.git`
+- Install .NET (if you haven't) from https://dotnet.microsoft.com/en-us/download
+- Run the app at the root directory from terminal `dotnet watch`
+- Enjoy experiencing the app! :)
+
 # QuizWiz-ver1.0
 
 Team members:
