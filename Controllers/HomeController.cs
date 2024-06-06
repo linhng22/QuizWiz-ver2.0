@@ -145,6 +145,7 @@ public class HomeController : Controller
 
             if (extractedContent != null && extractedContent.Count > 0) {
                 if (extractedContent[0] == "No text found in image.") {
+                    Console.WriteLine("No text found in image");
                     return Redirect("/Home");
                 }
                 string extractContentStr = string.Join("", extractedContent);
