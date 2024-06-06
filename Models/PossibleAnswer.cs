@@ -10,7 +10,7 @@ public class PossibleAnswer
     [Key]
     public int PossibleAnswerId { get; set; }
 
-    [ForeignKey("Card")]
+    [Required]
     public int CardId { get; set; }
 
     [Required(ErrorMessage = "Answer is required")]
@@ -18,5 +18,6 @@ public class PossibleAnswer
     public string? Answer { get; set; }
 
     // Navigation property for the card this possible answer belongs to
+    [ForeignKey("CardId")]
     public Card? Card { get; set; }
 }

@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<Card>? Cards { get; set; } = default!;
     public DbSet<CardSet>? CardSets { get; set; } = default!;
+    public DbSet<PossibleAnswer>? PossibleAnswers {get; set;} = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,10 @@ public class ApplicationDbContext : IdentityDbContext
         modelBuilder.Entity<CardSet>().Property(cs => cs.CardSetId).IsRequired();
         modelBuilder.Entity<CardSet>()
         .ToTable("CardSet"); 
+
+        modelBuilder.Entity<PossibleAnswer>().Property(pa => pa.PossibleAnswerId).IsRequired();
+        modelBuilder.Entity<PossibleAnswer>()
+        .ToTable("PossibleAnswer"); 
 
         // modelBuilder.Seed();
     }

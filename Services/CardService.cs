@@ -6,6 +6,7 @@ using ProjectStudyTool.Models;
 using ProjectStudyTool.Data;
 using ProjectStudyTool.Converter;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ProjectStudyTool.Services;
 public class CardService
@@ -17,78 +18,10 @@ public class CardService
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    /**
-     * Create a new card set from text and add a CardSet and Cards to the database. 
-     * @param text, the inputed text, from gpt.
-     * @param name, Requires a name for the card set.
-     * @param userId, the user id, default is 1.
-     * @return cardSet.CardSetId, the id of the created card set.
-     */
-    // public CardSet? CreateCardSetFromText(string text, string name, int userId = 1)
-    // {
-    //     // Convert the text to an array of cards
-    //     var cards = TextConverter.convertTextToCardArray(text);
-
-    //     // TODO: remove
-    //     Console.WriteLine("Cards: " + cards.Length);
-    //     for (int i = 0; i < cards.Length; i++)
-    //     {
-    //         Console.WriteLine("Question: " + cards[i].Question);
-    //         Console.WriteLine("Answer: " + cards[i].Answer);
-    //     }
-
-    //     if (cards.Length == 0)
-    //     {
-    //         Console.WriteLine("No cards found in text");
-    //         return null;
-    //     }
-
-    //     // Create a new card set
-    //     var cardSet = new CardSet
-    //     {
-    //         Name = name,
-    //         UserId = userId,
-    //         CreatedDate = DateTime.Now,
-    //         ModifiedDate = DateTime.Now,
-    //     };
-
-
-    //     //TODO: remove
-    //     Console.WriteLine("CardSet: " + cardSet.Name);
-    //     Console.WriteLine("CardSet: " + cardSet.UserId);
-    //     Console.WriteLine("CardSet: " + cardSet.CreatedDate);
-    //     Console.WriteLine("CardSet: " + cardSet.ModifiedDate);
-    //     Console.WriteLine("CardSet: " + cardSet.Cards);
-    
-    //     if (cardSet.UserId == 0)
-    //     {
-    //         Console.WriteLine("User ID is required");
-    //         return null;
-    //     }
-
-    //     // Add the card set to the database
-    //     CreateCardSet(cardSet);
-
-    //     // Add the cards to the database
-    //     // for (int i = 0; i < cards.Length; i++)
-    //     // {
-    //     //     cards[i].CardSetId = cardSet.CardSetId;
-    //     //     CreateCard(cards[i]);
-    //     // }
-    //     for (Card card in cards)
-    //     {
-    //         // print card
-    //         Console.WriteLine("Card: " + card.Question);
-    //         Console.WriteLine("Card: " + card.Answer);
-    //         card.CardSetId = cardSet.CardSetId;
-
-    //     }
-    //     return cardSet;
-    // }
     public CardSet? CreateCardSetFromText(string text, string name, string userId)
     {
         // Convert the text to an array of cards
-        var cards = TextConverter.convertTextToCardArray(text);
+        (Card[] cards, string[] possibleAnswers) = TextConverter.convertTextToCardArray(text);
 
         if (cards.Length == 0)
         {
@@ -116,6 +49,8 @@ public class CardService
             card.CardSetId = cardSet.CardSetId;
             card.QuestionId = cardNumber++;
             cardSet.Cards.Add(card);  // Add card to the card set's collection
+            _context.SaveChanges();
+            PersistPossibleAnswers(possibleAnswers, card.CardId);
         }
 
         // Save changes to the database
@@ -139,7 +74,7 @@ public class CardService
     public void CreateCardsFromText(string text, int cardSetId)
     {
         // Convert the text to an array of cards
-        var cards = TextConverter.convertTextToCardArray(text);
+        (Card[] cards, string[] possibleAnswers)  = TextConverter.convertTextToCardArray(text);
 
         if (cards.Length == 0)
         {
@@ -316,7 +251,7 @@ public class CardService
         var cardList = new List<Card>();
         try
         {
-            var cards = TextConverter.convertTextToCardArray(text);
+            (Card[] cards, string[] possibleAnswers) = TextConverter.convertTextToCardArray(text);
             var cardNumber = 1;
             foreach (var card in cards)
             {
@@ -329,6 +264,17 @@ public class CardService
             Console.WriteLine("Error creating cards: " + e.Message);
         }
         return cardList;
+    }
+
+    public void PersistPossibleAnswers(string[] possibleAnswers, int cardId) {
+        foreach (string pa in possibleAnswers) {
+            var possibleAnswer = new PossibleAnswer {
+                CardId = cardId,
+                Answer = pa
+            };
+            _context.PossibleAnswers!.Add(possibleAnswer);
+            _context.SaveChanges();
+        }
     }
 
 }

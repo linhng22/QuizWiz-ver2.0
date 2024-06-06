@@ -57,16 +57,23 @@ public class OpenAiService
     */
     var chat = kernel.GetRequiredService<IChatCompletionService>();
     var chatHistory = new ChatHistory();
+    // var instructions = "Generate flashcards content from the provided text. "
+    //     + " Generate at least 20 to 100 questions and answers. "
+    //     + " Questions should be numbered QUESTION #. Correct answers should start with ANSWER #: "
+    //     + " Each question has 3 wrong answers. Wrong answers should start with POSSIBLE #."
+    //     + " The flashcards are in a question-and-answer or keyword-and-explanation format. "
+    //     + " The questions should be based on the text provided. The answers should be concise and based on the text.";
     var instructions = "Generate flashcards content from the provided text. "
         + " Generate at least 20 to 100 questions and answers. "
-        + " Questions should be numbered QUESTION #. Answers should start with ANSWER #: "
+        + " Questions should be numbered QUESTION #. Each question has 3 wrong answers and 1 correct answer. "
+        + " Correct answers should start with CORRECT ANSWER. Wrong answers should start with POSSIBLE ANSWER. "
         + " The flashcards are in a question-and-answer or keyword-and-explanation format. "
         + " The questions should be based on the text provided. The answers should be concise and based on the text.";
     chatHistory.AddSystemMessage(instructions);
     chatHistory.AddUserMessage(userContent);
     var response = await chat.GetChatMessageContentsAsync(chatHistory, executionSettings);
     var responseContent = response[^1].Content;
-    // Console.WriteLine(responseContent);
+    // Console.WriteLine(responseContent + "\n----------------------------------");
 
     return response;
   }
