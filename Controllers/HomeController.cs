@@ -134,4 +134,29 @@ public class HomeController : Controller
         return Redirect("/Home");
     }
 
+    [HttpPost]
+    [RequestFormLimits(MultipartBodyLengthLimit = 10485760)] // Limit file size to 10MB
+    [Route("Index/ImageUpload")]
+    public async Task<IActionResult> IndexGetImageAsync(IFormFile file) {
+        if (file != null && file.Length > 0)
+        {
+            var visionService = new VisionService();
+            var extractedContent = await visionService.UseVisionService(file);
+
+            if (extractedContent != null && extractedContent.Count > 0) {
+                if (extractedContent[0] == "No text found in image.") {
+                    return Redirect("/Home");
+                }
+                string extractContentStr = string.Join("", extractedContent);
+                // trim content to 2000 characters, remove spaces between lines
+                extractContentStr = extractContentStr.Substring(0, Math.Min(extractContentStr.Length, 2000))
+                    .Replace("\r", "").Replace("\t", "");
+                return await IndexAsync(extractContentStr);
+            }
+            
+        }
+        Console.WriteLine("File is null or empty");
+        return Redirect("/Home");
+    }
+
 }

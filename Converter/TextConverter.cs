@@ -24,21 +24,21 @@ public class TextConverter
             .ToArray();
         
         // Check if the number of questions and answers match        
-        if (questions.Length != answers.Length)
-        {
-            Console.WriteLine("ERROR: TextConverter: Number of questions and answers do not match");
-            Console.WriteLine("Questions: " + questions.Length);
-            Console.WriteLine("Answers: " + answers.Length);
-            for (int i = 0; i < questions.Length; i++)
-            {
-                Console.WriteLine("Question: " + questions[i]);
-            }
-            for (int i = 0; i < answers.Length; i++)
-            {
-                Console.WriteLine("Answer: " + answers[i]);
-            }
-            throw new ArgumentException("Number of questions and answers do not match");
-        }
+        // if (questions.Length != answers.Length)
+        // {
+        //     Console.WriteLine("ERROR: TextConverter: Number of questions and answers do not match");
+        //     Console.WriteLine("Questions: " + questions.Length);
+        //     Console.WriteLine("Answers: " + answers.Length);
+        //     for (int i = 0; i < questions.Length; i++)
+        //     {
+        //         Console.WriteLine("Question: " + questions[i]);
+        //     }
+        //     for (int i = 0; i < answers.Length; i++)
+        //     {
+        //         Console.WriteLine("Answer: " + answers[i]);
+        //     }
+        //     throw new ArgumentException("Number of questions and answers do not match");
+        // }
 
         // Create an array of cards
         var cards = new Card[Math.Min(questions.Length, answers.Length)];

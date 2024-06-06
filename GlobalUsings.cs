@@ -15,3 +15,8 @@ global using ProjectStudyTool.Controllers;
 global using ProjectStudyTool.Data;
 global using ProjectStudyTool.Converter;
 global using ProjectStudyTool.Services;
+
+global using Azure;
+global using Azure.AI.Vision.ImageAnalysis;
+global using System;
+global using System.Text;

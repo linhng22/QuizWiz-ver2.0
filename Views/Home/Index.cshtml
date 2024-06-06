@@ -37,6 +37,16 @@
     </div>
 
     <div class="container px-5 py-4 mb-5">
+        <h2 class="fw-bolder mb-3 text-light">Upload an image:</h2>
+        <form method="post" enctype="multipart/form-data" action="/Index/ImageUpload" id="uploadImageToGenerateCardsForm">
+            <input type="file" name="file" class="form-control w-75 mx-auto" accept=".png, .jpeg" />
+            <button type="submit" id="uploadImageBtn" class="input-group-text btn btn-light btn-lg px-3 pb-2 mt-4 mb-2 mb-lg-0 me-3" >
+                Upload + Generate
+            </button>
+        </form>
+    </div>
+
+    <div class="container px-5 py-4 mb-5">
         <h2 class="fw-bolder mb-3 text-light">Upload a text or PDF file:</h2>
         <form method="post" enctype="multipart/form-data" action="/Index/FileUpload" id="uploadToGenerateCardsForm">
             <input type="file" name="file" class="form-control w-75 mx-auto" accept=".txt, .pdf" />
