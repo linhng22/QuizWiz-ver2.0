@@ -10,8 +10,10 @@ function displayFlashcard(index) {
   answerElement.textContent = flashcard.answer;
 
   // Initially show the question and hide the answer
-  questionElement.style.display = "block";
+  var headerElement = document.querySelector("#flashcardHeader");
+  headerElement.innerText = "Question";
   answerElement.style.display = "none";
+  questionElement.style.display = "block";
 }
 
 function toggleFlashcard() {
