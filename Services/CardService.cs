@@ -21,7 +21,7 @@ public class CardService
     public CardSet? CreateCardSetFromText(string text, string name, string userId)
     {
         // Convert the text to an array of cards
-        (Card[] cards, string[] possibleAnswers) = TextConverter.convertTextToCardArray(text);
+        (Card[] cards, List<List<string>> possibleAnswers) = TextConverter.convertTextToCardArray(text);
 
         if (cards.Length == 0)
         {
@@ -50,7 +50,10 @@ public class CardService
             card.QuestionId = cardNumber++;
             cardSet.Cards.Add(card);  // Add card to the card set's collection
             _context.SaveChanges();
-            PersistPossibleAnswers(possibleAnswers, card.CardId);
+            if (cardNumber - 2 >= 0 && cardNumber - 2 < possibleAnswers.Count)
+            {
+                PersistPossibleAnswers(possibleAnswers[cardNumber - 2], card.CardId);
+            }
         }
 
         // Save changes to the database
@@ -74,7 +77,7 @@ public class CardService
     public void CreateCardsFromText(string text, int cardSetId)
     {
         // Convert the text to an array of cards
-        (Card[] cards, string[] possibleAnswers)  = TextConverter.convertTextToCardArray(text);
+        (Card[] cards, List<List<string>> possibleAnswers)  = TextConverter.convertTextToCardArray(text);
 
         if (cards.Length == 0)
         {
@@ -251,7 +254,7 @@ public class CardService
         var cardList = new List<Card>();
         try
         {
-            (Card[] cards, string[] possibleAnswers) = TextConverter.convertTextToCardArray(text);
+            (Card[] cards, List<List<string>> possibleAnswers) = TextConverter.convertTextToCardArray(text);
             var cardNumber = 1;
             foreach (var card in cards)
             {
@@ -266,15 +269,23 @@ public class CardService
         return cardList;
     }
 
-    public void PersistPossibleAnswers(string[] possibleAnswers, int cardId) {
-        foreach (string pa in possibleAnswers) {
+    public void PersistPossibleAnswers(List<string> possibleAnswers, int cardId) {
+        for (int i = 0; i < possibleAnswers.Count; i++) {
             var possibleAnswer = new PossibleAnswer {
-                CardId = cardId,
-                Answer = pa
+                CardId = cardId
             };
+            if (i < possibleAnswers.Count)
+            {
+                
+                possibleAnswer.Answer = possibleAnswers[i];
+            } else {
+                possibleAnswer.Answer = "F";
+            }
             _context.PossibleAnswers!.Add(possibleAnswer);
             _context.SaveChanges();
         }
+        
     }
+    
 
 }
